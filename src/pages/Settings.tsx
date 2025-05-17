@@ -54,11 +54,13 @@ const Settings = () => {
       <div className="flex-1 ml-[70px] lg:ml-[250px]">
         <div className="py-16 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight">Configurações</h2>
-              <p className="text-muted-foreground">
-                Gerencie as configurações da sua conta e da igreja
-              </p>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-bold tracking-tight">Configurações</h2>
+                <p className="text-muted-foreground">
+                  Gerencie as configurações da sua conta e da igreja
+                </p>
+              </div>
             </div>
 
             <Tabs defaultValue="profile">
