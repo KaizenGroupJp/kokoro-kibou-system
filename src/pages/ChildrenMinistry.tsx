@@ -14,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Users, User, MoreHorizontal, Search, Plus, AlertTriangle, Hearts, Baby, Tags, Cake, MapPin } from 'lucide-react';
+import { Users, User, MoreHorizontal, Search, Plus, AlertTriangle, Heart, Baby, Tags, Cake, MapPin } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 // Mock data for children

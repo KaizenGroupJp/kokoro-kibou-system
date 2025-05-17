@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Settings as SettingsIcon, User, Building, Bell, Lock, Languages, Palette, Mail, CreditCard, Check } from 'lucide-react';
+import { Plus } from "lucide-react";
 
 const Settings = () => {
   const [churchName, setChurchName] = useState('Igreja Brasileira de Tóquio');
