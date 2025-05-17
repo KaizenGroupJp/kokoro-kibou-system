@@ -63,10 +63,10 @@ const TransferLetter = () => {
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
               </Link>
-              <h2 className="text-3xl font-bold tracking-tight">Carta de Transferência</h2>
+              <h2 className="text-3xl font-bold tracking-tight">Cartas</h2>
             </div>
             <p className="text-muted-foreground mb-8">
-              Prepare cartas de transferência para membros
+              Prepare cartas para membros
             </p>
 
             <div className="flex flex-col md:flex-row gap-8">

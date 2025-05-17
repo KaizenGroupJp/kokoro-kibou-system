@@ -127,10 +127,12 @@ const MemberDetail = () => {
                     <FileText className="mr-2 h-4 w-4" />
                     Editar
                   </Button>
-                  <Button variant="outline">
-                    <Download className="mr-2 h-4 w-4" />
-                    Exportar
-                  </Button>
+                  <Link to="/dashboard/transfer-letter/:id">
+                    <Button variant="outline">
+                      <Download className="mr-2 h-4 w-4" />
+                      Cartas
+                    </Button>
+                  </Link>
                   <Link to="/dashboard/member-card/:id">
                     <Button>Cartão de Membro</Button>
                   </Link>

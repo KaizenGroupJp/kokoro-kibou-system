@@ -67,7 +67,7 @@ const Footer = () => {
         
         <div className="mt-12 border-t border-indigo-900 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-300">© {new Date().getFullYear()} ChurchManagerJP. All rights reserved.</p>
+            <p className="text-gray-300">© {new Date().getFullYear()} K.K. Kaizen Group. All rights reserved.</p>
             <div className="mt-4 md:mt-0">
               <div className="flex space-x-4">
                 <button className="text-gray-300 hover:text-white">日本語</button>
