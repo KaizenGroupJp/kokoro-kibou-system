@@ -140,7 +140,7 @@ const ChildrenMinistry = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="min-h-screen flex bg-gray-50">
       <DashboardSidebar />
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between">
