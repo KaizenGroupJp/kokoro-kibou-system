@@ -143,292 +143,296 @@ const ChildrenMinistry = () => {
     <div className="min-h-screen flex bg-gray-50">
       <DashboardSidebar />
       <div className="flex-1 ml-[70px] lg:ml-[250px]">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight">Ministério Infantil</h2>
-            <p className="text-muted-foreground mt-1">
-              Gerenciamento de crianças, salas e necessidades especiais
-            </p>
-          </div>
-          <Button onClick={handleAddChild}>
-            <Plus className="mr-2 h-4 w-4" />
-            Adicionar Criança
-          </Button>
-        </div>
+        <div className="py-16 px-4 md:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-bold tracking-tight">Ministério Infantil</h2>
+                <p className="text-muted-foreground mt-1">
+                  Gerenciamento de crianças, salas e necessidades especiais
+                </p>
+              </div>
+              <Button onClick={handleAddChild}>
+                <Plus className="mr-2 h-4 w-4" />
+                Adicionar Criança
+              </Button>
+            </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList>
-            <TabsTrigger value="children">
-              <User className="mr-2 h-4 w-4" />
-              Crianças
-            </TabsTrigger>
-            <TabsTrigger value="classrooms">
-              <MapPin className="mr-2 h-4 w-4" />
-              Salas
-            </TabsTrigger>
-            <TabsTrigger value="specialNeeds">
-              <AlertTriangle className="mr-2 h-4 w-4" />
-              Necessidades Especiais
-            </TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="children" className="space-y-4">
-            <Card>
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                  <CardTitle>Lista de Crianças</CardTitle>
-                  <div className="flex space-x-2">
-                    <div className="flex items-center space-x-2">
-                      <Select
-                        value={filterClassroom}
-                        onValueChange={setFilterClassroom}
-                      >
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Filtrar por sala" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Todas as salas</SelectItem>
-                          <SelectItem value="Cordeirinhos">Cordeirinhos</SelectItem>
-                          <SelectItem value="Exploradores">Exploradores</SelectItem>
-                          <SelectItem value="Conquistadores">Conquistadores</SelectItem>
-                        </SelectContent>
-                      </Select>
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList>
+                <TabsTrigger value="children">
+                  <User className="mr-2 h-4 w-4" />
+                  Crianças
+                </TabsTrigger>
+                <TabsTrigger value="classrooms">
+                  <MapPin className="mr-2 h-4 w-4" />
+                  Salas
+                </TabsTrigger>
+                <TabsTrigger value="specialNeeds">
+                  <AlertTriangle className="mr-2 h-4 w-4" />
+                  Necessidades Especiais
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="children" className="space-y-4">
+                <Card>
+                  <CardHeader className="pb-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+                      <CardTitle>Lista de Crianças</CardTitle>
+                      <div className="flex space-x-2">
+                        <div className="flex items-center space-x-2">
+                          <Select
+                            value={filterClassroom}
+                            onValueChange={setFilterClassroom}
+                          >
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Filtrar por sala" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">Todas as salas</SelectItem>
+                              <SelectItem value="Cordeirinhos">Cordeirinhos</SelectItem>
+                              <SelectItem value="Exploradores">Exploradores</SelectItem>
+                              <SelectItem value="Conquistadores">Conquistadores</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+                          <Select
+                            value={filterSpecialNeeds}
+                            onValueChange={setFilterSpecialNeeds}
+                          >
+                            <SelectTrigger className="w-[220px]">
+                              <SelectValue placeholder="Filtrar por necessidades" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">Todas</SelectItem>
+                              <SelectItem value="yes">Com necessidades especiais</SelectItem>
+                              <SelectItem value="no">Sem necessidades especiais</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="relative">
+                          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            placeholder="Buscar criança..."
+                            className="pl-10"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    
-                    <div className="flex items-center space-x-2">
-                      <Select
-                        value={filterSpecialNeeds}
-                        onValueChange={setFilterSpecialNeeds}
-                      >
-                        <SelectTrigger className="w-[220px]">
-                          <SelectValue placeholder="Filtrar por necessidades" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Todas</SelectItem>
-                          <SelectItem value="yes">Com necessidades especiais</SelectItem>
-                          <SelectItem value="no">Sem necessidades especiais</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="relative">
-                      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        placeholder="Buscar criança..."
-                        className="pl-10"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Nome</TableHead>
-                      <TableHead>Idade</TableHead>
-                      <TableHead>Sala</TableHead>
-                      <TableHead>Responsáveis</TableHead>
-                      <TableHead>Necessidades Especiais</TableHead>
-                      <TableHead>Ações</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredChildren.length > 0 ? (
-                      filteredChildren.map((child) => (
-                        <TableRow key={child.id}>
-                          <TableCell className="font-medium">{child.name}</TableCell>
-                          <TableCell>{child.age} anos</TableCell>
-                          <TableCell>{child.classroom}</TableCell>
-                          <TableCell>{child.guardians}</TableCell>
-                          <TableCell>
-                            {child.specialNeeds ? (
-                              <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-300">
-                                <AlertTriangle className="mr-1 h-3 w-3" />
-                                Sim
-                              </Badge>
-                            ) : (
-                              <Badge variant="outline" className="bg-green-100 text-green-800 border-green-300">
-                                Não
-                              </Badge>
-                            )}
-                            {child.allergies.length > 0 && (
-                              <Badge variant="outline" className="ml-2 bg-red-100 text-red-800 border-red-300">
-                                Alergias
-                              </Badge>
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem>Ver detalhes</DropdownMenuItem>
-                                <DropdownMenuItem>Editar</DropdownMenuItem>
-                                <DropdownMenuItem className="text-red-600">Remover</DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
+                  </CardHeader>
+                  <CardContent>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Nome</TableHead>
+                          <TableHead>Idade</TableHead>
+                          <TableHead>Sala</TableHead>
+                          <TableHead>Responsáveis</TableHead>
+                          <TableHead>Necessidades Especiais</TableHead>
+                          <TableHead>Ações</TableHead>
                         </TableRow>
-                      ))
-                    ) : (
-                      <TableRow>
-                        <TableCell colSpan={6} className="text-center py-4">
-                          Nenhuma criança encontrada com esses filtros.
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="classrooms" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {classroomData.map((classroom) => (
-                <Card key={classroom.id}>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredChildren.length > 0 ? (
+                          filteredChildren.map((child) => (
+                            <TableRow key={child.id}>
+                              <TableCell className="font-medium">{child.name}</TableCell>
+                              <TableCell>{child.age} anos</TableCell>
+                              <TableCell>{child.classroom}</TableCell>
+                              <TableCell>{child.guardians}</TableCell>
+                              <TableCell>
+                                {child.specialNeeds ? (
+                                  <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-300">
+                                    <AlertTriangle className="mr-1 h-3 w-3" />
+                                    Sim
+                                  </Badge>
+                                ) : (
+                                  <Badge variant="outline" className="bg-green-100 text-green-800 border-green-300">
+                                    Não
+                                  </Badge>
+                                )}
+                                {child.allergies.length > 0 && (
+                                  <Badge variant="outline" className="ml-2 bg-red-100 text-red-800 border-red-300">
+                                    Alergias
+                                  </Badge>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon">
+                                      <MoreHorizontal className="h-4 w-4" />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end">
+                                    <DropdownMenuItem>Ver detalhes</DropdownMenuItem>
+                                    <DropdownMenuItem>Editar</DropdownMenuItem>
+                                    <DropdownMenuItem className="text-red-600">Remover</DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={6} className="text-center py-4">
+                              Nenhuma criança encontrada com esses filtros.
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+                      
+              <TabsContent value="classrooms" className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {classroomData.map((classroom) => (
+                    <Card key={classroom.id}>
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-between">
+                          {classroom.name}
+                          <Badge variant="outline" className="bg-blue-100 text-blue-800">
+                            {classroom.ageRange}
+                          </Badge>
+                        </CardTitle>
+                        <CardDescription>
+                          {classroom.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
+                              <span>{classroom.location}</span>
+                            </div>
+                            <Badge>
+                              {classroom.currentEnrollment}/{classroom.capacity} crianças
+                            </Badge>
+                          </div>
+
+                          <div>
+                            <h4 className="text-sm font-medium mb-2">Professores:</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {classroom.teachers.map((teacher, index) => (
+                                <Badge key={index} variant="outline">
+                                  {teacher}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="flex justify-between">
+                        <Button variant="outline" size="sm">Ver Crianças</Button>
+                        <Button size="sm">Gerenciar</Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+                
+              <TabsContent value="specialNeeds" className="space-y-4">
+                <Card>
                   <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      {classroom.name}
-                      <Badge variant="outline" className="bg-blue-100 text-blue-800">
-                        {classroom.ageRange}
-                      </Badge>
-                    </CardTitle>
+                    <CardTitle>Crianças com Necessidades Especiais</CardTitle>
                     <CardDescription>
-                      {classroom.description}
+                      Lista de crianças com necessidades especiais e alergias
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
-                          <span>{classroom.location}</span>
-                        </div>
-                        <Badge>
-                          {classroom.currentEnrollment}/{classroom.capacity} crianças
-                        </Badge>
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-lg font-medium flex items-center mb-4">
+                          <AlertTriangle className="mr-2 h-5 w-5 text-yellow-500" />
+                          Necessidades Especiais
+                        </h3>
+                        {childrenData.filter(child => child.specialNeeds).map((child) => (
+                          <Card key={child.id} className="mb-4 border-l-4 border-l-yellow-400">
+                            <CardContent className="p-4">
+                              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                                <div>
+                                  <h4 className="font-medium">{child.name}</h4>
+                                  <div className="flex items-center text-sm text-muted-foreground mt-1">
+                                    <Cake className="mr-1 h-4 w-4" />
+                                    <span>{child.age} anos</span>
+                                    <span className="mx-2">•</span>
+                                    <Tags className="mr-1 h-4 w-4" />
+                                    <span>{child.classroom}</span>
+                                  </div>
+                                  <p className="text-sm mt-2">
+                                    <span className="font-medium">Necessidade:</span> {child.specialNeedsDetails}
+                                  </p>
+                                </div>
+                                <div className="mt-3 md:mt-0">
+                                  <Button variant="outline" size="sm">Ver Detalhes</Button>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+
+                        {childrenData.filter(child => child.specialNeeds).length === 0 && (
+                          <p className="text-muted-foreground text-center py-4">
+                            Nenhuma criança com necessidades especiais registrada.
+                          </p>
+                        )}
                       </div>
                       
                       <div>
-                        <h4 className="text-sm font-medium mb-2">Professores:</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {classroom.teachers.map((teacher, index) => (
-                            <Badge key={index} variant="outline">
-                              {teacher}
-                            </Badge>
-                          ))}
-                        </div>
+                        <h3 className="text-lg font-medium flex items-center mb-4">
+                          <Baby className="mr-2 h-5 w-5 text-red-500" />
+                          Crianças com Alergias
+                        </h3>
+                        {childrenData.filter(child => child.allergies.length > 0).map((child) => (
+                          <Card key={child.id} className="mb-4 border-l-4 border-l-red-400">
+                            <CardContent className="p-4">
+                              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                                <div>
+                                  <h4 className="font-medium">{child.name}</h4>
+                                  <div className="flex items-center text-sm text-muted-foreground mt-1">
+                                    <Cake className="mr-1 h-4 w-4" />
+                                    <span>{child.age} anos</span>
+                                    <span className="mx-2">•</span>
+                                    <Tags className="mr-1 h-4 w-4" />
+                                    <span>{child.classroom}</span>
+                                  </div>
+                                  <div className="mt-2 flex flex-wrap gap-1">
+                                    {child.allergies.map((allergy, index) => (
+                                      <Badge key={index} variant="outline" className="bg-red-50">
+                                        {allergy}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div className="mt-3 md:mt-0">
+                                  <Button variant="outline" size="sm">Ver Detalhes</Button>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+
+                        {childrenData.filter(child => child.allergies.length > 0).length === 0 && (
+                          <p className="text-muted-foreground text-center py-4">
+                            Nenhuma criança com alergias registrada.
+                          </p>
+                        )}
                       </div>
                     </div>
                   </CardContent>
-                  <CardFooter className="flex justify-between">
-                    <Button variant="outline" size="sm">Ver Crianças</Button>
-                    <Button size="sm">Gerenciar</Button>
-                  </CardFooter>
                 </Card>
-              ))}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="specialNeeds" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Crianças com Necessidades Especiais</CardTitle>
-                <CardDescription>
-                  Lista de crianças com necessidades especiais e alergias
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-medium flex items-center mb-4">
-                      <AlertTriangle className="mr-2 h-5 w-5 text-yellow-500" />
-                      Necessidades Especiais
-                    </h3>
-                    {childrenData.filter(child => child.specialNeeds).map((child) => (
-                      <Card key={child.id} className="mb-4 border-l-4 border-l-yellow-400">
-                        <CardContent className="p-4">
-                          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                            <div>
-                              <h4 className="font-medium">{child.name}</h4>
-                              <div className="flex items-center text-sm text-muted-foreground mt-1">
-                                <Cake className="mr-1 h-4 w-4" />
-                                <span>{child.age} anos</span>
-                                <span className="mx-2">•</span>
-                                <Tags className="mr-1 h-4 w-4" />
-                                <span>{child.classroom}</span>
-                              </div>
-                              <p className="text-sm mt-2">
-                                <span className="font-medium">Necessidade:</span> {child.specialNeedsDetails}
-                              </p>
-                            </div>
-                            <div className="mt-3 md:mt-0">
-                              <Button variant="outline" size="sm">Ver Detalhes</Button>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                    
-                    {childrenData.filter(child => child.specialNeeds).length === 0 && (
-                      <p className="text-muted-foreground text-center py-4">
-                        Nenhuma criança com necessidades especiais registrada.
-                      </p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium flex items-center mb-4">
-                      <Baby className="mr-2 h-5 w-5 text-red-500" />
-                      Crianças com Alergias
-                    </h3>
-                    {childrenData.filter(child => child.allergies.length > 0).map((child) => (
-                      <Card key={child.id} className="mb-4 border-l-4 border-l-red-400">
-                        <CardContent className="p-4">
-                          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                            <div>
-                              <h4 className="font-medium">{child.name}</h4>
-                              <div className="flex items-center text-sm text-muted-foreground mt-1">
-                                <Cake className="mr-1 h-4 w-4" />
-                                <span>{child.age} anos</span>
-                                <span className="mx-2">•</span>
-                                <Tags className="mr-1 h-4 w-4" />
-                                <span>{child.classroom}</span>
-                              </div>
-                              <div className="mt-2 flex flex-wrap gap-1">
-                                {child.allergies.map((allergy, index) => (
-                                  <Badge key={index} variant="outline" className="bg-red-50">
-                                    {allergy}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="mt-3 md:mt-0">
-                              <Button variant="outline" size="sm">Ver Detalhes</Button>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                    
-                    {childrenData.filter(child => child.allergies.length > 0).length === 0 && (
-                      <p className="text-muted-foreground text-center py-4">
-                        Nenhuma criança com alergias registrada.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
       </div>
     </div>
   );
