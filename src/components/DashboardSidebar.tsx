@@ -7,6 +7,7 @@ import {
   Banknote,
   FileText,
   Home,
+  Warehouse,
   Calendar,
   BookOpen,
   Check,
@@ -25,14 +26,15 @@ const DashboardSidebar = () => {
 
   const navItems = [
     { name: 'Dashboard', icon: Home, path: '/dashboard' },
-    { name: 'Members', icon: Users, path: '/dashboard/members' },
-    { name: 'Finance', icon: Banknote, path: '/dashboard/finance' },
-    { name: 'Documents', icon: FileText, path: '/dashboard/documents' },
-    { name: 'Calendar', icon: Calendar, path: '/dashboard/calendar' },
-    { name: 'Discipleship', icon: BookOpen, path: '/dashboard/discipleship' },
+    { name: 'Membros', icon: Users, path: '/dashboard/members' },
+    { name: 'Finanças', icon: Banknote, path: '/dashboard/finance' },
+    { name: 'Propiedades', icon: Banknote, path: '/dashboard/assets' },
+    { name: 'Documentos', icon: FileText, path: '/dashboard/documents' },
+    { name: 'Calendário', icon: Calendar, path: '/dashboard/calendar' },
+    { name: 'Discipulado', icon: BookOpen, path: '/dashboard/discipleship' },
     { name: 'Check-in', icon: Check, path: '/dashboard/checkin' },
-    { name: 'Reports', icon: ChartBar, path: '/dashboard/reports' },
-    { name: 'Settings', icon: Settings, path: '/dashboard/settings' },
+    { name: 'Relatórios', icon: ChartBar, path: '/dashboard/reports' },
+    { name: 'Configuração', icon: Settings, path: '/dashboard/settings' },
   ];
 
   const isActive = (path: string) => location.pathname === path;

@@ -43,7 +43,7 @@ const MemberDetail = () => {
       { name: "Hiro Yamada", relation: "Filho", id: "3" },
       { name: "Aiko Yamada", relation: "Filha", id: "4" }
     ],
-    sacraments: [
+    acts: [
       { type: "Batismo", date: "2015-06-12", officiant: "Pastor José Silva", notes: "Batismo por imersão" },
       { type: "Casamento", date: "2012-09-08", officiant: "Pastor Hiroshi Tanaka", notes: "Cerimônia na Igreja Central" }
     ],
@@ -95,7 +95,7 @@ const MemberDetail = () => {
   return (
     <div className="min-h-screen flex bg-gray-50">
       <DashboardSidebar />
-      <div className="flex-1 ml-[70px] lg:ml-[250px]">
+      <div className="flex-1 ml-0 md:ml-[70px] lg:ml-[250px]">
         <div className="py-16 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="mb-8">
@@ -131,7 +131,9 @@ const MemberDetail = () => {
                     <Download className="mr-2 h-4 w-4" />
                     Exportar
                   </Button>
-                  <Button>Cartão de Membro</Button>
+                  <Link to="/dashboard/member-card/:id">
+                    <Button>Cartão de Membro</Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -140,7 +142,7 @@ const MemberDetail = () => {
               <TabsList>
                 <TabsTrigger value="overview">Visão Geral</TabsTrigger>
                 <TabsTrigger value="family">Família</TabsTrigger>
-                <TabsTrigger value="sacraments">Sacramentos</TabsTrigger>
+                <TabsTrigger value="acts">Atos solenes</TabsTrigger>
                 <TabsTrigger value="contributions">Contribuições</TabsTrigger>
                 <TabsTrigger value="attendance">Frequência</TabsTrigger>
                 <TabsTrigger value="courses">Cursos</TabsTrigger>
@@ -199,25 +201,25 @@ const MemberDetail = () => {
                   
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-lg">Sacramentos</CardTitle>
+                      <CardTitle className="text-lg">Atos Solenes</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      {member.sacraments.length > 0 ? (
+                      {member.acts.length > 0 ? (
                         <ul className="space-y-3">
-                          {member.sacraments.map((sacrament, index) => (
+                          {member.acts.map((act, index) => (
                             <li key={index} className="border-b pb-3 last:border-0 last:pb-0">
                               <div className="font-medium flex items-center">
                                 <Heart className="h-4 w-4 text-gray-500 mr-2" />
-                                {sacrament.type}
+                                {act.type}
                               </div>
                               <div className="text-sm text-gray-500 mt-1">
-                                {new Date(sacrament.date).toLocaleDateString()} • {sacrament.officiant}
+                                {new Date(act.date).toLocaleDateString()} • {act.officiant}
                               </div>
                             </li>
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-gray-500">Nenhum sacramento registrado.</p>
+                        <p className="text-gray-500">Nenhum acto registrado.</p>
                       )}
                     </CardContent>
                   </Card>
@@ -271,26 +273,26 @@ const MemberDetail = () => {
                 </Card>
               </TabsContent>
               
-              <TabsContent value="sacraments">
+              <TabsContent value="acts">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Sacramentos</CardTitle>
-                    <CardDescription>Registro de batismo, casamento e outros sacramentos</CardDescription>
+                    <CardTitle>Atos Solenes</CardTitle>
+                    <CardDescription>Registro de batismo, casamento e outros atos solenes</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {member.sacraments.length > 0 ? (
+                    {member.acts.length > 0 ? (
                       <div className="space-y-6">
-                        {member.sacraments.map((sacrament, index) => (
+                        {member.acts.map((act, index) => (
                           <div key={index} className="bg-white rounded-lg border p-4">
                             <div className="flex items-center justify-between mb-2">
-                              <h3 className="font-medium text-lg">{sacrament.type}</h3>
-                              <Badge variant="outline">{new Date(sacrament.date).toLocaleDateString()}</Badge>
+                              <h3 className="font-medium text-lg">{act.type}</h3>
+                              <Badge variant="outline">{new Date(act.date).toLocaleDateString()}</Badge>
                             </div>
-                            <p className="text-gray-600">Ministrado por: {sacrament.officiant}</p>
-                            {sacrament.notes && (
+                            <p className="text-gray-600">Ministrado por: {act.officiant}</p>
+                            {act.notes && (
                               <>
                                 <Separator className="my-2" />
-                                <p className="text-gray-600">{sacrament.notes}</p>
+                                <p className="text-gray-600">{act.notes}</p>
                               </>
                             )}
                             <div className="mt-4 flex gap-2">
@@ -305,9 +307,9 @@ const MemberDetail = () => {
                     ) : (
                       <div className="text-center py-8">
                         <Heart className="h-12 w-12 mx-auto text-gray-400" />
-                        <h3 className="mt-2 text-lg font-medium">Nenhum sacramento registrado</h3>
-                        <p className="text-gray-500">Adicione registros de sacramentos para este membro.</p>
-                        <Button className="mt-4">Adicionar Sacramento</Button>
+                        <h3 className="mt-2 text-lg font-medium">Nenhum acto registrado</h3>
+                        <p className="text-gray-500">Adicione registros de atos solenes para este membro.</p>
+                        <Button className="mt-4">Adicionar acto</Button>
                       </div>
                     )}
                   </CardContent>

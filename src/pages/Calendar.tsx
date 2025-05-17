@@ -150,7 +150,7 @@ const Calendar = () => {
   return (
     <div className="min-h-screen flex bg-gray-50">
       <DashboardSidebar />
-      <div className="flex-1 ml-[70px] lg:ml-[250px]">
+      <div className="flex-1 ml-0 md:ml-[70px] lg:ml-[250px]">
         <div className="py-16 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">

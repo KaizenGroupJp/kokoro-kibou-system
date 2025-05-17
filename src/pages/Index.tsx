@@ -87,7 +87,7 @@ const features = [
   {
     icon: Users,
     title: "Member Management",
-    description: "Complete member profiles with family grouping, sacrament records, and digital membership cards.",
+    description: "Complete member profiles with family grouping, act records, and digital membership cards.",
   },
   {
     icon: Banknote,
