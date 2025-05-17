@@ -1,19 +1,18 @@
-
 import { useState } from 'react';
 import { 
-  Building, 
+  User, 
+  Building,
+  Home as HomeIcon,
+  Monitor,
+  BookOpen,
+  Music,
+  Video,
+  FileText,
   Package, 
-  QrCode, 
-  Calendar, 
-  Search, 
-  Plus, 
-  Download, 
-  ShoppingBag,
   Truck,
-  Tag,
-  AlertCircle,
-  MapPin,
-  ArrowUpDown
+  Clock,
+  Calendar,
+  Search
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
