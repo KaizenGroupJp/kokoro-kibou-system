@@ -150,7 +150,7 @@ const Calendar = () => {
   return (
     <div className="min-h-screen flex bg-gray-50">
       <DashboardSidebar />
-      <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex-1 ml-[70px] lg:ml-[250px]">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between space-y-2 md:space-y-0">
           <h2 className="text-3xl font-bold tracking-tight">Calendário</h2>
           <div className="flex items-center space-x-2">
