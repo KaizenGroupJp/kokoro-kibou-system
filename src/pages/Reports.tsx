@@ -657,7 +657,7 @@ const Reports = () => {
                             <div className="grid grid-cols-3 gap-2 text-sm">
                               <div>
                                 <div className="text-2xl font-bold">22%</div>
-                                <div className="text-gray-500">< 18</div>
+                                <div className="text-gray-500">&lt; 18</div>
                               </div>
                               <div>
                                 <div className="text-2xl font-bold">58%</div>
@@ -665,7 +665,7 @@ const Reports = () => {
                               </div>
                               <div>
                                 <div className="text-2xl font-bold">20%</div>
-                                <div className="text-gray-500">> 50</div>
+                                <div className="text-gray-500">&gt; 50</div>
                               </div>
                             </div>
                           </CardContent>
@@ -697,7 +697,7 @@ const Reports = () => {
                             <div className="grid grid-cols-3 gap-2 text-sm">
                               <div>
                                 <div className="text-2xl font-bold">25%</div>
-                                <div className="text-gray-500">< 1 ano</div>
+                                <div className="text-gray-500">&lt; 1 ano</div>
                               </div>
                               <div>
                                 <div className="text-2xl font-bold">45%</div>
@@ -705,7 +705,7 @@ const Reports = () => {
                               </div>
                               <div>
                                 <div className="text-2xl font-bold">30%</div>
-                                <div className="text-gray-500">> 5 anos</div>
+                                <div className="text-gray-500">&gt; 5 anos</div>
                               </div>
                             </div>
                           </CardContent>
