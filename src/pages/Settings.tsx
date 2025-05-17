@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import { Button } from "@/components/ui/button";
@@ -10,8 +9,9 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Settings as SettingsIcon, User, Building, Bell, Lock, Languages, Palette, Mail, CreditCard } from 'lucide-react';
+import { Settings as SettingsIcon, User, Building, Bell, Lock, Languages, Palette, Mail, CreditCard, Check } from 'lucide-react';
 
 const Settings = () => {
   const [churchName, setChurchName] = useState('Igreja Brasileira de Tóquio');

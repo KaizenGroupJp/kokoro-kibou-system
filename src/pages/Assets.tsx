@@ -12,7 +12,14 @@ import {
   Truck,
   Clock,
   Calendar,
-  Search
+  Search,
+  QrCode,
+  Plus,
+  ShoppingBag,
+  ArrowUpDown,
+  MapPin,
+  Tag,
+  Users
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -471,7 +478,7 @@ const Assets = () => {
                                       : 'bg-blue-50 text-blue-700 border-blue-200'
                                   }`}
                                 >
-                                  {property.status === 'owned' ? 'Própria' : 'Alugada'}
+                                  {property.status === 'owned' ? 'Pr��pria' : 'Alugada'}
                                 </Badge>
                               </div>
                             </div>
