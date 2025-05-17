@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Calendar as CalendarIcon, Plus, ChevronLeft, ChevronRight, Search, Filter } from 'lucide-react';
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { format, addMonths, subMonths, isSameDay } from 'date-fns';
@@ -11,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 // Sample events data
 const events = [
@@ -58,6 +60,24 @@ const events = [
     location: "Sala Multiuso",
     type: "jovens",
     attendees: 45
+  },
+  {
+    id: 6,
+    title: "Culto de Oração",
+    start: new Date(2025, 4, 15, 19, 0),
+    end: new Date(2025, 4, 15, 20, 30),
+    location: "Sala de Oração",
+    type: "culto",
+    attendees: 30
+  },
+  {
+    id: 7,
+    title: "Conferência Missionária",
+    start: new Date(2025, 5, 5, 18, 0),
+    end: new Date(2025, 5, 5, 21, 0),
+    location: "Salão Principal",
+    type: "conferencia",
+    attendees: 150
   }
 ];
 
@@ -66,6 +86,9 @@ const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [view, setView] = useState<'month' | 'week' | 'day' | 'list'>('month');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterType, setFilterType] = useState('all');
+  const { toast } = useToast();
 
   const handlePreviousMonth = () => {
     setCurrentMonth(prevMonth => subMonths(prevMonth, 1));
@@ -75,8 +98,18 @@ const Calendar = () => {
     setCurrentMonth(prevMonth => addMonths(prevMonth, 1));
   };
 
+  // Filter events based on search and filter type
+  const filteredEvents = events.filter(event => {
+    const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.location.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesType = filterType === 'all' || event.type === filterType;
+    
+    return matchesSearch && matchesType;
+  });
+
   const eventsByDate = (date: Date) => {
-    return events.filter(event => isSameDay(event.start, date));
+    return filteredEvents.filter(event => isSameDay(event.start, date));
   };
 
   const hasEventsOnDate = (date: Date) => {
@@ -90,8 +123,28 @@ const Calendar = () => {
       case 'reuniao': return 'bg-purple-100 text-purple-700';
       case 'ensaio': return 'bg-yellow-100 text-yellow-700';
       case 'jovens': return 'bg-pink-100 text-pink-700';
+      case 'conferencia': return 'bg-orange-100 text-orange-700';
       default: return 'bg-gray-100 text-gray-700';
     }
+  };
+
+  const getEventTypeName = (type: string) => {
+    switch (type) {
+      case 'culto': return 'Culto';
+      case 'estudo': return 'Estudo';
+      case 'reuniao': return 'Reunião';
+      case 'ensaio': return 'Ensaio';
+      case 'jovens': return 'Jovens';
+      case 'conferencia': return 'Conferência';
+      default: return type;
+    }
+  };
+
+  const handleExportCalendar = () => {
+    toast({
+      title: "Calendário exportado",
+      description: "O calendário foi exportado com sucesso.",
+    });
   };
 
   return (
@@ -135,134 +188,115 @@ const Calendar = () => {
                 Lista
               </Button>
             </div>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button size="sm">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Novo Evento
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="sm:max-w-[500px]">
-                <SheetHeader>
-                  <SheetTitle>Novo Evento</SheetTitle>
-                  <SheetDescription>
-                    Crie um novo evento para o calendário
-                  </SheetDescription>
-                </SheetHeader>
-                <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <label htmlFor="event-title" className="text-sm font-medium">Título</label>
-                    <Input id="event-title" placeholder="Nome do evento" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label htmlFor="event-start-date" className="text-sm font-medium">Data de início</label>
-                      <Input id="event-start-date" type="date" />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="event-start-time" className="text-sm font-medium">Hora de início</label>
-                      <Input id="event-start-time" type="time" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label htmlFor="event-end-date" className="text-sm font-medium">Data de fim</label>
-                      <Input id="event-end-date" type="date" />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="event-end-time" className="text-sm font-medium">Hora de fim</label>
-                      <Input id="event-end-time" type="time" />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="event-location" className="text-sm font-medium">Local</label>
-                    <Input id="event-location" placeholder="Local do evento" />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="event-type" className="text-sm font-medium">Tipo</label>
-                    <Select>
-                      <SelectTrigger id="event-type">
-                        <SelectValue placeholder="Selecione o tipo" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="culto">Culto</SelectItem>
-                        <SelectItem value="estudo">Estudo Bíblico</SelectItem>
-                        <SelectItem value="reuniao">Reunião</SelectItem>
-                        <SelectItem value="ensaio">Ensaio</SelectItem>
-                        <SelectItem value="jovens">Jovens</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="event-description" className="text-sm font-medium">Descrição</label>
-                    <textarea
-                      id="event-description"
-                      className="min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm"
-                      placeholder="Detalhes do evento"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-end space-x-2">
-                  <Button variant="outline">Cancelar</Button>
-                  <Button>Salvar</Button>
-                </div>
-              </SheetContent>
-            </Sheet>
+            <Link to="/dashboard/new-event">
+              <Button size="sm">
+                <Plus className="mr-2 h-4 w-4" />
+                Novo Evento
+              </Button>
+            </Link>
           </div>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
           <div className="flex items-center space-x-4">
             <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <h3 className="text-xl font-semibold">
+            <h3 className="text-xl font-semibold min-w-[140px] text-center">
               {format(currentMonth, 'MMMM yyyy')}
             </h3>
             <Button variant="outline" size="icon" onClick={handleNextMonth}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 flex-wrap md:flex-nowrap gap-2 md:gap-0">
+            <Select value={filterType} onValueChange={setFilterType}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Filtrar por tipo" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="culto">Cultos</SelectItem>
+                <SelectItem value="estudo">Estudos</SelectItem>
+                <SelectItem value="reuniao">Reuniões</SelectItem>
+                <SelectItem value="ensaio">Ensaios</SelectItem>
+                <SelectItem value="jovens">Jovens</SelectItem>
+                <SelectItem value="conferencia">Conferências</SelectItem>
+              </SelectContent>
+            </Select>
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input 
                 type="search" 
                 placeholder="Buscar eventos..." 
-                className="pl-8 w-[200px] md:w-[300px]" 
+                className="pl-8 w-full md:w-[200px]"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" onClick={handleExportCalendar}>
               <Filter className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4">
-          <Card>
-            <CardContent className="p-0">
-              {view === 'month' && (
-                <div className="p-4">
-                  <div className="mb-4">
-                    <CalendarComponent 
-                      mode="single"
-                      selected={date}
-                      onSelect={(newDate) => newDate && setDate(newDate)}
-                      className="rounded-md border shadow"
-                      modifiers={{
-                        hasEvent: (date) => hasEventsOnDate(date),
-                      }}
-                      modifiersClassNames={{
-                        hasEvent: "bg-primary/10 font-bold",
-                      }}
-                    />
+        <div className="grid grid-cols-1 lg:grid-cols-7 gap-4">
+          {/* Left side - Calendar */}
+          <div className={`${view === 'month' || view === 'list' ? 'lg:col-span-3' : 'lg:col-span-7'}`}>
+            <Card>
+              <CardContent className="p-6">
+                <CalendarComponent 
+                  mode="single"
+                  selected={date}
+                  onSelect={(newDate) => newDate && setDate(newDate)}
+                  month={currentMonth}
+                  onMonthChange={setCurrentMonth}
+                  className="rounded-md border shadow pointer-events-auto"
+                  modifiers={{
+                    hasEvent: (date) => hasEventsOnDate(date),
+                  }}
+                  modifiersClassNames={{
+                    hasEvent: "bg-primary/10 font-bold",
+                  }}
+                  disabled={(date) => date < subMonths(new Date(), 3)}
+                />
+
+                <div className="mt-4 flex justify-center space-x-4">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 rounded-full bg-primary/10 mr-1" />
+                    <span className="text-xs text-muted-foreground">Com eventos</span>
                   </div>
-                  <div className="space-y-4">
-                    <h3 className="font-medium text-lg">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 rounded-full bg-background border mr-1" />
+                    <span className="text-xs text-muted-foreground">Sem eventos</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right side - Events list */}
+          {(view === 'month' || view === 'list') && (
+            <div className="lg:col-span-4">
+              <Card>
+                <CardHeader className="pb-3">
+                  {view === 'month' ? (
+                    <CardTitle className="flex items-center">
+                      <CalendarIcon className="mr-2 h-5 w-5" />
                       Eventos em {format(date, 'dd/MM/yyyy')}
-                    </h3>
-                    <div className="space-y-2">
-                      {eventsByDate(date).length > 0 ? (
+                    </CardTitle>
+                  ) : (
+                    <CardTitle className="flex items-center">
+                      <CalendarIcon className="mr-2 h-5 w-5" />
+                      Próximos Eventos
+                    </CardTitle>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {view === 'month' ? (
+                      // Show events for selected date in month view
+                      eventsByDate(date).length > 0 ? (
                         eventsByDate(date).map(event => (
                           <Card key={event.id} className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => setSelectedEvent(event)}>
                             <CardContent className="p-4">
@@ -275,11 +309,7 @@ const Calendar = () => {
                                   <div className="text-sm text-muted-foreground">{event.location}</div>
                                 </div>
                                 <Badge className={`${getEventTypeColor(event.type)}`}>
-                                  {event.type === 'culto' && 'Culto'}
-                                  {event.type === 'estudo' && 'Estudo'}
-                                  {event.type === 'reuniao' && 'Reunião'}
-                                  {event.type === 'ensaio' && 'Ensaio'}
-                                  {event.type === 'jovens' && 'Jovens'}
+                                  {getEventTypeName(event.type)}
                                 </Badge>
                               </div>
                             </CardContent>
@@ -289,55 +319,64 @@ const Calendar = () => {
                         <p className="text-muted-foreground text-center py-4">
                           Nenhum evento agendado para esta data.
                         </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-              {view === 'list' && (
-                <div className="p-4 space-y-4">
-                  <div className="flex items-center space-x-2 pb-2 border-b">
-                    <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                    <h3 className="font-medium">Próximos Eventos</h3>
-                  </div>
-                  <div className="space-y-2">
-                    {events.sort((a, b) => a.start.getTime() - b.start.getTime()).map(event => (
-                      <Card key={event.id} className="cursor-pointer hover:bg-accent/50 transition-colors">
-                        <CardContent className="p-4">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <div className="text-sm text-muted-foreground">
-                                {format(event.start, 'dd/MM/yyyy')}
+                      )
+                    ) : (
+                      // Show all upcoming events in list view
+                      filteredEvents.sort((a, b) => a.start.getTime() - b.start.getTime()).map(event => (
+                        <Card key={event.id} className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => setSelectedEvent(event)}>
+                          <CardContent className="p-4">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <div className="text-sm text-muted-foreground">
+                                  {format(event.start, 'dd/MM/yyyy')}
+                                </div>
+                                <h4 className="font-medium">{event.title}</h4>
+                                <div className="text-sm text-muted-foreground">
+                                  {format(event.start, 'HH:mm')} - {format(event.end, 'HH:mm')}
+                                </div>
+                                <div className="text-sm text-muted-foreground">{event.location}</div>
                               </div>
-                              <h4 className="font-medium">{event.title}</h4>
-                              <div className="text-sm text-muted-foreground">
-                                {format(event.start, 'HH:mm')} - {format(event.end, 'HH:mm')}
-                              </div>
-                              <div className="text-sm text-muted-foreground">{event.location}</div>
+                              <Badge className={`${getEventTypeColor(event.type)}`}>
+                                {getEventTypeName(event.type)}
+                              </Badge>
                             </div>
-                            <Badge className={`${getEventTypeColor(event.type)}`}>
-                              {event.type === 'culto' && 'Culto'}
-                              {event.type === 'estudo' && 'Estudo'}
-                              {event.type === 'reuniao' && 'Reunião'}
-                              {event.type === 'ensaio' && 'Ensaio'}
-                              {event.type === 'jovens' && 'Jovens'}
-                            </Badge>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                          </CardContent>
+                        </Card>
+                      ))
+                    )}
+
+                    {view === 'list' && filteredEvents.length === 0 && (
+                      <p className="text-muted-foreground text-center py-4">
+                        Nenhum evento encontrado com os filtros atuais.
+                      </p>
+                    )}
                   </div>
-                </div>
-              )}
-              {(view === 'week' || view === 'day') && (
-                <div className="p-4 text-center">
-                  <h3 className="text-muted-foreground">
-                    Visualização de {view === 'week' ? 'semana' : 'dia'} será implementada em breve.
-                  </h3>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Week or Day view (placeholder) */}
+          {(view === 'week' || view === 'day') && (
+            <div className="lg:col-span-7">
+              <Card className="h-[600px]">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <CalendarIcon className="h-12 w-12 text-muted-foreground opacity-50 mb-4" />
+                    <h3 className="text-xl font-medium mb-2">
+                      Visualização de {view === 'week' ? 'Semana' : 'Dia'}
+                    </h3>
+                    <p className="text-muted-foreground text-center max-w-md">
+                      Esta visualização será implementada em breve. Por enquanto, você pode usar as visualizações de Mês e Lista para gerenciar seus eventos.
+                    </p>
+                    <Button className="mt-4" onClick={() => setView('month')}>
+                      Voltar para Visualização de Mês
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
       
@@ -352,33 +391,37 @@ const Calendar = () => {
               </SheetDescription>
             </SheetHeader>
             <div className="space-y-4 py-4">
+              <Badge className={`${getEventTypeColor(selectedEvent.type)}`}>
+                {getEventTypeName(selectedEvent.type)}
+              </Badge>
+
               <div className="flex items-center space-x-2">
                 <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                 <span>
                   {format(selectedEvent.start, 'dd/MM/yyyy')} · {format(selectedEvent.start, 'HH:mm')} - {format(selectedEvent.end, 'HH:mm')}
                 </span>
               </div>
+              
               <div>
                 <h4 className="text-sm font-medium">Local</h4>
                 <p>{selectedEvent.location}</p>
               </div>
+              
               <div>
                 <h4 className="text-sm font-medium">Participantes</h4>
                 <p>{selectedEvent.attendees} pessoas</p>
               </div>
-              <div>
-                <Badge className={`${getEventTypeColor(selectedEvent.type)}`}>
-                  {selectedEvent.type === 'culto' && 'Culto'}
-                  {selectedEvent.type === 'estudo' && 'Estudo'}
-                  {selectedEvent.type === 'reuniao' && 'Reunião'}
-                  {selectedEvent.type === 'ensaio' && 'Ensaio'}
-                  {selectedEvent.type === 'jovens' && 'Jovens'}
-                </Badge>
-              </div>
             </div>
-            <div className="flex justify-end space-x-2">
-              <Button variant="outline">Editar</Button>
-              <Button variant="destructive">Excluir</Button>
+            
+            <div className="flex justify-end space-x-2 mt-6">
+              <Link to="/dashboard/events">
+                <Button variant="outline">
+                  Ver Todos os Eventos
+                </Button>
+              </Link>
+              <Button>
+                Editar
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
