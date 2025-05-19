@@ -28,7 +28,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Search, Plus, MoreHorizontal, FileDown, Filter, Mail, User, UserCog, Heart, Calendar, ShieldCheck } from 'lucide-react';
+import { Search, Plus, MoreHorizontal, FileDown, Filter, Mail, User, UserCog, Heart, Calendar, ShieldCheck, CreditCard } from 'lucide-react';
 import DashboardSidebar from '@/components/DashboardSidebar';
 
 // Enhanced sample member data with roles and family relations

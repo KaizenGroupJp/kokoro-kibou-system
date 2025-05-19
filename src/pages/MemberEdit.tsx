@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardSidebar from '@/components/DashboardSidebar';
@@ -81,7 +82,7 @@ const MemberEdit = () => {
   const [newFamilyMember, setNewFamilyMember] = useState({
     name: '',
     relation: 'spouse',
-    age: '',
+    age: 0, // Changed from string to number
   });
   
   const [selectedAllergies, setSelectedAllergies] = useState(
@@ -117,13 +118,14 @@ const MemberEdit = () => {
         {
           id: Date.now(), // Generate temporary ID
           ...newFamilyMember,
+          age: Number(newFamilyMember.age), // Ensure age is a number
           photo: `https://i.pravatar.cc/300?img=${Math.floor(Math.random() * 70)}`
         }
       ]
     };
     
     setMember(updatedMember);
-    setNewFamilyMember({ name: '', relation: 'spouse', age: '' });
+    setNewFamilyMember({ name: '', relation: 'spouse', age: 0 }); // Reset with number
     
     toast({
       title: "Family member added",
@@ -468,7 +470,7 @@ const MemberEdit = () => {
                                 id="familyMemberAge" 
                                 type="number"
                                 value={newFamilyMember.age}
-                                onChange={(e) => setNewFamilyMember({...newFamilyMember, age: e.target.value})}
+                                onChange={(e) => setNewFamilyMember({...newFamilyMember, age: Number(e.target.value)})}
                                 placeholder="Enter age"
                                 className="mt-1"
                               />
