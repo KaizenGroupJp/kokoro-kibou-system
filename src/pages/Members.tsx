@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -26,10 +28,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Search, Plus, MoreHorizontal, FileDown, Filter, Mail, User } from 'lucide-react';
+import { Search, Plus, MoreHorizontal, FileDown, Filter, Mail, User, UserCog, Heart, Calendar, ShieldCheck } from 'lucide-react';
 import DashboardSidebar from '@/components/DashboardSidebar';
 
-// Sample member data
+// Enhanced sample member data with roles and family relations
 const members = [
   {
     id: 1,
@@ -40,6 +42,13 @@ const members = [
     memberSince: '2020-03-15',
     baptized: true,
     family: 'Yamada Family',
+    photo: 'https://i.pravatar.cc/150?img=33',
+    roles: ['financial', 'secretary'],
+    familyMembers: [
+      { id: 8, name: 'Yuki Yamada', relation: 'spouse' },
+      { id: 9, name: 'Haruto Yamada', relation: 'child', age: 10 },
+    ],
+    allergies: [],
   },
   {
     id: 2,
@@ -50,6 +59,14 @@ const members = [
     memberSince: '2021-06-10',
     baptized: true,
     family: 'Silva Family',
+    photo: 'https://i.pravatar.cc/150?img=5',
+    roles: ['children_ministry_teacher'],
+    familyMembers: [
+      { id: 10, name: 'Ricardo Silva', relation: 'spouse' },
+      { id: 11, name: 'Laura Silva', relation: 'child', age: 7 },
+      { id: 12, name: 'Pedro Silva', relation: 'child', age: 5 },
+    ],
+    allergies: [],
   },
   {
     id: 3,
@@ -60,6 +77,10 @@ const members = [
     memberSince: '2019-11-22',
     baptized: true,
     family: 'Santos Family',
+    photo: 'https://i.pravatar.cc/150?img=68',
+    roles: [],
+    familyMembers: [],
+    allergies: [],
   },
   {
     id: 4,
@@ -70,6 +91,12 @@ const members = [
     memberSince: '2022-01-05',
     baptized: false,
     family: 'Tanaka Family',
+    photo: 'https://i.pravatar.cc/150?img=41',
+    roles: ['financial'],
+    familyMembers: [
+      { id: 13, name: 'Akiko Tanaka', relation: 'spouse' },
+    ],
+    allergies: ['Penicilina'],
   },
   {
     id: 5,
@@ -80,6 +107,10 @@ const members = [
     memberSince: '2021-09-12',
     baptized: true,
     family: 'Oliveira Family',
+    photo: 'https://i.pravatar.cc/150?img=16',
+    roles: ['children_ministry_teacher'],
+    familyMembers: [],
+    allergies: ['Amendoim', 'Frutos do mar'],
   },
   {
     id: 6,
@@ -90,6 +121,10 @@ const members = [
     memberSince: '2022-04-18',
     baptized: true,
     family: 'Nakamura Family',
+    photo: 'https://i.pravatar.cc/150?img=60',
+    roles: [],
+    familyMembers: [],
+    allergies: [],
   },
   {
     id: 7,
@@ -100,7 +135,19 @@ const members = [
     memberSince: '2020-08-30',
     baptized: true,
     family: 'Gomez Family',
+    photo: 'https://i.pravatar.cc/150?img=11',
+    roles: [],
+    familyMembers: [],
+    allergies: ['Glúten'],
   },
+];
+
+// Define available roles
+const availableRoles = [
+  { id: 'financial', name: 'Financeiro', description: 'Acesso ao módulo financeiro' },
+  { id: 'secretary', name: 'Secretário', description: 'Funções administrativas e de secretaria' },
+  { id: 'children_ministry_teacher', name: 'Professor Min. Infantil', description: 'Acesso ao módulo do ministério infantil' },
+  { id: 'admin', name: 'Administrador', description: 'Acesso completo ao sistema' },
 ];
 
 const Members = () => {
@@ -120,6 +167,10 @@ const Members = () => {
       return matchesSearch && member.status === 'inactive';
     } else if (activeTab === 'baptized') {
       return matchesSearch && member.baptized;
+    } else if (activeTab === 'with_roles') {
+      return matchesSearch && member.roles.length > 0;
+    } else if (activeTab === 'with_allergies') {
+      return matchesSearch && member.allergies.length > 0;
     } else {
       return matchesSearch;
     }
@@ -161,14 +212,16 @@ const Members = () => {
                 <div className="mb-6">
                   <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0 mb-6">
-                      <TabsList>
+                      <TabsList className="flex-wrap">
                         <TabsTrigger value="all">All Members</TabsTrigger>
                         <TabsTrigger value="active">Active</TabsTrigger>
                         <TabsTrigger value="inactive">Inactive</TabsTrigger>
                         <TabsTrigger value="baptized">Baptized</TabsTrigger>
+                        <TabsTrigger value="with_roles">With Roles</TabsTrigger>
+                        <TabsTrigger value="with_allergies">With Allergies</TabsTrigger>
                       </TabsList>
                       
-                      <div className="flex">
+                      <div className="flex flex-wrap gap-2">
                         <Button
                           variant="outline"
                           size="icon"
@@ -209,7 +262,7 @@ const Members = () => {
                               <TableHead className="hidden md:table-cell">Email</TableHead>
                               <TableHead className="hidden md:table-cell">Status</TableHead>
                               <TableHead className="hidden lg:table-cell">Member Since</TableHead>
-                              <TableHead className="hidden lg:table-cell">Family</TableHead>
+                              <TableHead className="hidden lg:table-cell">Roles</TableHead>
                               <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                           </TableHeader>
@@ -218,14 +271,25 @@ const Members = () => {
                               filteredMembers.map((member) => (
                                 <TableRow key={member.id}>
                                   <TableCell>
-                                    <div className="font-medium">{member.name}</div>
-                                    <div className="text-sm text-gray-500 md:hidden">{member.email}</div>
-                                    <div className="text-sm text-gray-500 md:hidden">
-                                      {member.status === 'active' ? (
-                                        <Badge className="bg-green-100 text-green-800 hover:bg-green-200">Active</Badge>
-                                      ) : (
-                                        <Badge variant="outline" className="text-gray-800">Inactive</Badge>
-                                      )}
+                                    <div className="flex items-center">
+                                      <div className="h-10 w-10 rounded-full overflow-hidden mr-3 flex-shrink-0">
+                                        <img 
+                                          src={member.photo} 
+                                          alt={member.name} 
+                                          className="h-full w-full object-cover"
+                                        />
+                                      </div>
+                                      <div>
+                                        <div className="font-medium">{member.name}</div>
+                                        <div className="text-sm text-gray-500 md:hidden">{member.email}</div>
+                                        <div className="text-sm text-gray-500 md:hidden">
+                                          {member.status === 'active' ? (
+                                            <Badge className="bg-green-100 text-green-800 hover:bg-green-200">Active</Badge>
+                                          ) : (
+                                            <Badge variant="outline" className="text-gray-800">Inactive</Badge>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
                                   </TableCell>
                                   <TableCell className="hidden md:table-cell">{member.email}</TableCell>
@@ -237,7 +301,29 @@ const Members = () => {
                                     )}
                                   </TableCell>
                                   <TableCell className="hidden lg:table-cell">{new Date(member.memberSince).toLocaleDateString()}</TableCell>
-                                  <TableCell className="hidden lg:table-cell">{member.family}</TableCell>
+                                  <TableCell className="hidden lg:table-cell">
+                                    <div className="flex flex-wrap gap-1">
+                                      {member.roles.map(role => {
+                                        const roleInfo = availableRoles.find(r => r.id === role);
+                                        if (!roleInfo) return null;
+                                        
+                                        return (
+                                          <Badge key={role} variant="outline" className="bg-blue-50 border-blue-200">
+                                            {role === 'financial' && <CreditCard size={12} className="mr-1" />}
+                                            {role === 'secretary' && <Mail size={12} className="mr-1" />}
+                                            {role === 'children_ministry_teacher' && <Heart size={12} className="mr-1" />}
+                                            {role === 'admin' && <ShieldCheck size={12} className="mr-1" />}
+                                            {roleInfo.name}
+                                          </Badge>
+                                        );
+                                      })}
+                                      {member.allergies.length > 0 && (
+                                        <Badge variant="outline" className="bg-red-50 border-red-200 text-red-800">
+                                          Alergias
+                                        </Badge>
+                                      )}
+                                    </div>
+                                  </TableCell>
                                   <TableCell className="text-right">
                                     <div className="flex justify-end">
                                       <Button
@@ -265,8 +351,25 @@ const Members = () => {
                                           </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                                          <DropdownMenuItem>Generate Certificate</DropdownMenuItem>
+                                          <Link to={`/dashboard/members/edit/${member.id}`}>
+                                            <DropdownMenuItem>
+                                              <UserCog className="mr-2 h-4 w-4" />
+                                              Edit Member
+                                            </DropdownMenuItem>
+                                          </Link>
+                                          <Link to={`/dashboard/member-card/${member.id}`}>
+                                            <DropdownMenuItem>
+                                              <User className="mr-2 h-4 w-4" />
+                                              Member Card
+                                            </DropdownMenuItem>
+                                          </Link>
+                                          <Link to={`/dashboard/baptism-certificate/${member.id}`}>
+                                            <DropdownMenuItem>
+                                              <Calendar className="mr-2 h-4 w-4" />
+                                              Baptism Certificate
+                                            </DropdownMenuItem>
+                                          </Link>
+                                          <DropdownMenuSeparator />
                                           <DropdownMenuItem className="text-red-600">Deactivate</DropdownMenuItem>
                                         </DropdownMenuContent>
                                       </DropdownMenu>
@@ -292,6 +395,12 @@ const Members = () => {
                       {/* Same table structure with filtered data */}
                     </TabsContent>
                     <TabsContent value="baptized" className="space-y-4">
+                      {/* Same table structure with filtered data */}
+                    </TabsContent>
+                    <TabsContent value="with_roles" className="space-y-4">
+                      {/* Same table structure with filtered data */}
+                    </TabsContent>
+                    <TabsContent value="with_allergies" className="space-y-4">
                       {/* Same table structure with filtered data */}
                     </TabsContent>
                   </Tabs>

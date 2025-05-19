@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Members from "./pages/Members";
+import MemberEdit from "./pages/MemberEdit";
 import Finance from "./pages/Finance";
 import Documents from "./pages/Documents";
 import Assets from "./pages/Assets";
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/members" element={<Members />} />
           <Route path="/dashboard/members/:id" element={<MemberDetail />} />
+          <Route path="/dashboard/members/edit/:id" element={<MemberEdit />} />
           <Route path="/dashboard/member-card/:id" element={<MemberCard />} />
           <Route path="/dashboard/finance" element={<Finance />} />
           <Route path="/dashboard/documents" element={<Documents />} />
