@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardSidebar from '@/components/DashboardSidebar';
@@ -94,8 +93,7 @@ const MemberEdit = () => {
   );
 
   const handleSave = () => {
-    toast({
-      title: "Member updated",
+    toast("Member updated", {
       description: `${member.name}'s information has been updated successfully.`,
     });
     navigate(`/dashboard/members/${id}`);
@@ -103,7 +101,7 @@ const MemberEdit = () => {
 
   const handlePhotoChange = () => {
     // In a real app, this would trigger a file upload
-    toast({
+    toast("Photo upload", {
       description: "Photo upload would be handled here",
     });
   };
@@ -127,8 +125,7 @@ const MemberEdit = () => {
     setMember(updatedMember);
     setNewFamilyMember({ name: '', relation: 'spouse', age: 0 }); // Reset with number
     
-    toast({
-      title: "Family member added",
+    toast("Family member added", {
       description: `${newFamilyMember.name} added to family.`,
     });
   };
@@ -141,8 +138,7 @@ const MemberEdit = () => {
     
     setMember(updatedMember);
     
-    toast({
-      title: "Family member removed",
+    toast("Family member removed", {
       description: "Family member has been removed.",
     });
   };
